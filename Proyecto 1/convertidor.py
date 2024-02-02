@@ -1,1 +1,2 @@
-print("hello worl")
+print("hello world")
+int a = 0
