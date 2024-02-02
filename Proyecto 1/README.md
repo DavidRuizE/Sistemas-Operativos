@@ -4,3 +4,5 @@ Proyecto realizado por:
 Daniel Pineda: dpinedav@eafit.edu.co
 
 Leonardo Rojas: alrojasp@eafit.edu.co
+
+David Ruiz: druize@eafit.edu.co
