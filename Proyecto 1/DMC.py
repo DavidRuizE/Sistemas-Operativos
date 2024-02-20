@@ -1,8 +1,7 @@
 import subprocess 
-from concurrent.futures import ThreadPoolExecutor #Paralelismo
-import os #Manejo de los archivos/carpetas
+from concurrent.futures import ThreadPoolExecutor # Paralelismo
+import os # Manejo de los archivos/carpetas
 import time
-
 
 def get_file_size(input_file, audio_format):
     ffmpeg_cmd = [
@@ -25,7 +24,14 @@ def get_file_size(input_file, audio_format):
         return -1
 
 # Función para realizar la conversión de archivos
-def convert_to_audio(input_file, audio_format, output_file):
+def convert_to_audio(input_file, audio_format, output_folder):
+    # Create the output folder if it doesn't exist
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
+    # Specify the output file path within the output folder
+    output_file = os.path.join(output_folder, os.path.basename(input_file).replace(os.path.splitext(input_file)[1], f".{audio_format}"))
+
     ffmpeg_cmd = [
         "ffmpeg",
         "-i", input_file,
@@ -61,12 +67,11 @@ def get_audio_files_in_folder(folder_path):
     return audio_files
 
 # Función para convertir archivos en paralelo
-def convert_files_in_parallel(audio_files, audio_format):
+def convert_files_in_parallel(audio_files, audio_format, output_folder):
     with ThreadPoolExecutor(max_workers=len(audio_files)) as executor:
         for file in audio_files:
-            output_file = os.path.splitext(file)[0] + f".{audio_format}"
-            executor.submit(convert_to_audio, file, audio_format, output_file)
-
+            executor.submit(convert_to_audio, file, audio_format, output_folder)
+            
 # Función para calcular los tamaños de los archivos en paralelo
 def calculate_file_sizes(input_file, formats):
     with ThreadPoolExecutor(max_workers=len(formats)) as executor:
@@ -82,7 +87,7 @@ def main():
         formats = ["mp3", "wav", "flac", "ogg"]
         calculate_file_sizes(input_file, formats)
         audio_format = input("Ingrese el formato al cual desea convertir la canción (mp3, wav, flac, ogg): ")
-        convert_to_audio(input_file, audio_format, f"audio.{audio_format}")
+        convert_to_audio(input_file, audio_format, "output")
         print("La conversión ha sido completada.")
     
     elif conversion_type == 'B':
@@ -90,7 +95,7 @@ def main():
         formats = ["mp3", "wav", "flac", "ogg"]
         audio_format = input("Ingrese el formato al cual desea convertir las canciones (mp3, wav, flac, ogg): ")
         audio_files = get_audio_files_in_folder(folder_path)
-        convert_files_in_parallel(audio_files, audio_format)
+        convert_files_in_parallel(audio_files, audio_format, "output")
         print("La conversión de la carpeta ha sido completada.")
     
     else:
