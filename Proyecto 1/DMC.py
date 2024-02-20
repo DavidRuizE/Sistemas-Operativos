@@ -1,8 +1,9 @@
-import subprocess
-from concurrent.futures import ThreadPoolExecutor
-import os
+import subprocess 
+from concurrent.futures import ThreadPoolExecutor #Paralelismo
+import os #Manejo de los archivos/carpetas
+import time
 
-# Función para obtener el tamaño del archivo
+
 def get_file_size(input_file, audio_format):
     ffmpeg_cmd = [
         "ffmpeg",
@@ -36,9 +37,12 @@ def convert_to_audio(input_file, audio_format, output_file):
     ]   
     
     try:
+        start_time = time.time()  # Tiempo inicial
         # Ejecutamos el comando ffmpeg y redirigimos la salida al archivo de salida
         subprocess.run(ffmpeg_cmd, check=True)
-        print(f"Successfully converted to {audio_format}")
+        end_time = time.time()  # Tiempo final
+        elapsed_time = end_time - start_time  # Tiempo transcurrido
+        print(f"Successfully converted to {audio_format}. Elapsed time: {elapsed_time:.2f} seconds")
     except subprocess.CalledProcessError:
         print(f"Conversion to {audio_format} failed!")
 
