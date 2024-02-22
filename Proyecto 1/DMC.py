@@ -48,9 +48,9 @@ def convert_to_audio(input_file, audio_format, output_folder):
         subprocess.run(ffmpeg_cmd, check=True)
         end_time = time.time()  # Tiempo final
         elapsed_time = end_time - start_time  # Tiempo transcurrido
-        print(f"Successfully converted to {audio_format}. Elapsed time: {elapsed_time:.2f} seconds")
+        print(f"Elapsed time: {elapsed_time:.2f} seconds")
     except subprocess.CalledProcessError:
-        print(f"Conversion to {audio_format} failed!")
+        print(f"1")
 
 # Función para procesar el archivo y obtener su tamaño antes de la conversión
 def process_file(input_file, audio_format):
@@ -88,7 +88,7 @@ def main():
         calculate_file_sizes(input_file, formats)
         audio_format = input("Ingrese el formato al cual desea convertir la canción (mp3, wav, flac, ogg): ")
         convert_to_audio(input_file, audio_format, "output")
-        print("La conversión ha sido completada.")
+        print("0")
     
     elif conversion_type == 'B':
         folder_path = input("Ingrese la ruta de la carpeta que desea convertir: ").strip()  # Eliminar espacios en blanco alrededor de la ruta
@@ -96,7 +96,7 @@ def main():
         audio_format = input("Ingrese el formato al cual desea convertir las canciones (mp3, wav, flac, ogg): ")
         audio_files = get_audio_files_in_folder(folder_path)
         convert_files_in_parallel(audio_files, audio_format, "output")
-        print("La conversión de la carpeta ha sido completada.")
+        print("0")
     
     else:
         print("Opción no válida. Por favor, seleccione 'A' o 'B'.")
