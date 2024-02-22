@@ -80,7 +80,7 @@ def calculate_file_sizes(input_file, formats):
 
 # Función principal
 def main():
-    conversion_type = input("¿Desea convertir un solo archivo (A) o una carpeta entera (B)? (A/B): ").upper()
+    conversion_type = input("¿Desea convertir un solo archivo (A) o una carpeta entera (-E)? (A/-e): ").upper()
     
     if conversion_type == 'A':
         input_file = input("Ingrese el nombre del archivo que desea convertir: ")
@@ -90,7 +90,7 @@ def main():
         convert_to_audio(input_file, audio_format, "output")
         print("0")
     
-    elif conversion_type == 'B':
+    elif conversion_type == '-E':
         folder_path = input("Ingrese la ruta de la carpeta que desea convertir: ").strip()  # Eliminar espacios en blanco alrededor de la ruta
         formats = ["mp3", "wav", "flac", "ogg"]
         audio_format = input("Ingrese el formato al cual desea convertir las canciones (mp3, wav, flac, ogg): ")
@@ -99,7 +99,7 @@ def main():
         print("0")
     
     else:
-        print("Opción no válida. Por favor, seleccione 'A' o 'B'.")
+        print("Opción no válida. Por favor, seleccione 'A' o '-E'.")
 
 if __name__ == "__main__":
     main()
